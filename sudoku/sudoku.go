@@ -207,50 +207,21 @@ func (s *Sudoku) backtrackingSolve() bool {
 	return false
 }
 
-func factorial(n int) int {
-	if n < 3 {
-		return n
-	}
-	return factorial(n-1) * n
-}
-
-func (s *Sudoku) checkIfOnlyOneSolution() int {
-	solutionCount := 0
-	if s.IsResolved() {
-		return 1
-	}
-	for i := 0; i < 81; i++ {
-		if s[i] == 0 {
-			possibleNums := s.getPossibleNumsForIndex(i)
-			for _, num := range possibleNums {
-				s[i] = num
-				if s.backtrackingSolve() {
-					solutionCount++
-				}
-				s[i] = 0
-			}
-		}
-	}
-	return solutionCount
-}
-
 func main() {
-	sudoku := `
-	1 2 3 4 5 6 7 8 9 
-	5 6 4 7 8 9 1 2 3
-	8 7 9 3 2 1 4 5 6 
-	4 3 2 5 9 7 6 1 8 
-	9 1 5 8 6 3 2 7 4 
-	7 8 6 2 1 4 3 9 5 
-	2 5 1 6 4 8 9 3 7
-	0 0 0 0 0 0 0 0 0 
-	0 0 0 0 0 0 0 0 0 
-	`
+	sudoku := `0 4 0 0 0 0 1 7 9 
+0 0 2 0 0 8 0 5 4 
+0 0 6 0 0 5 0 0 8 
+0 8 0 0 7 0 9 1 0 
+0 5 0 0 9 0 0 3 0 
+0 1 9 0 6 0 0 4 0 
+3 0 0 4 0 0 7 0 0 
+5 7 0 1 0 0 2 0 0 
+9 2 8 0 0 0 0 6 0`
 	s := Sudoku{}
 	s.readFromString(sudoku)
 	s.print()
 	start := time.Now()
-	fmt.Println(s.checkIfOnlyOneSolution())
+	fmt.Println(s.backtrackingSolve())
 	duration := time.Since(start)
 	s.print()
 	fmt.Println(duration)
